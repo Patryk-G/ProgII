@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Proj2class
 {
     [ApiController]
-    [Route("api/[controller]")]
+    
     public class RPNController : ControllerBase
     {
         string v = "valid formula";
@@ -21,7 +21,7 @@ namespace Proj2class
                 var data = new
                 {
                     status = e,
-                    result = v
+                    result = "enter the fomula"
                 };
                 return BadRequest(data);
             }
