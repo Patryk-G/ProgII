@@ -16,16 +16,17 @@ namespace Proj2class
         [Route("api/tokens")]
         public IActionResult Get (string formula)
         {
+           
             if (string.IsNullOrEmpty(formula))
             {
                 var data = new
                 {
                     status = e,
-                    result = "enter the fomula"
+                    result = fill
                 };
                 return BadRequest(data);
             }
-            RPN r = new RPN(formula);
+             RPN r = new RPN(formula);
             string[] infix = r.tokens(r.entry);
             if (!r.validation(infix))
             {

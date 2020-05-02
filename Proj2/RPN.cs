@@ -23,8 +23,21 @@ namespace Proj2class
             get { return variablePriv; }
             set { variablePriv = value; }
         }
-        
-        public bool validation(string[] TokenList)
+        public string[] tokens(string entryPriv)
+        {
+        string buffer = entryPriv;
+            buffer = Regex.Replace(buffer, @"(?<numer>\d+(\.\d+)?)", " ${numer} ");
+            buffer = Regex.Replace(buffer, @"(?<operator>[+\-*/^()])", " ${operator} ");
+            buffer = Regex.Replace(buffer, @"(?<funkcja>(abs|exp|sqrt|log|asin|sinh|sin|cosh|acos|cos|atan|tanh|tan))", " ${funkcja} ");
+            buffer = Regex.Replace(buffer, @"\s+", " ").Trim();
+
+            buffer = Regex.Replace(buffer, "-", "MINUS");
+            buffer = Regex.Replace(buffer, @"(?<numer>(([)]|\d+(\.\d+)?)))\s+MINUS", "${numer} -");
+            buffer = Regex.Replace(buffer, @"MINUS\s+(?<numer>(([)]|\d+(\.\d+)?)))", "-${numer}");
+            string[] Tokenlist = buffer.Split(" ".ToCharArray());
+            return Tokenlist;
+        }
+                public bool validation(string[] TokenList)
         {
             string lastToken = "";
             int Lparat = 0, Pparat = 0;
@@ -239,19 +252,7 @@ namespace Proj2class
             throw new Exception();
         }
     
-        public string[] tokens(string entryPriv)
-        {
-            string buffer = entryPriv;
-            buffer = Regex.Replace(buffer, @"(?<sym>((pi|e|x|[)]|\d+(\.\d+)?)))\s+MINUS", "${sym} -");
-            buffer = Regex.Replace(buffer, @"(?<op>[+\-*/^()])", " ${op} ");
-            buffer = Regex.Replace(buffer, @"(?<function>(pi|e|sqrt|abs|exp|sqrt|log|asin|sinh|sin|cosh|acos|cos|atan|tanh|tan))", " ${function} ");
-            buffer = Regex.Replace(buffer, @"\s+", " ").Trim();
-            buffer = Regex.Replace(buffer, @"(?<number>\d+(\.\d+)?)", " ${number} ");
-            buffer = Regex.Replace(buffer, "-", "MINUS");
-            buffer = Regex.Replace(buffer, @"MINUS\s+(?<sym>((sqrt|abs|exp|sqrt|log|asin|sinh|sin|cosh|acos|cos|atan|tanh|tan|[)]|\d+(\.\d+)?)))", "-${sym}");
-            string[] Tokenlist = buffer.Split(" ".ToCharArray());
-            return Tokenlist;
-        }
+        
         public List<string> InfixToPostfix(string[] TokenList)
         {
             Stack<string> s = new Stack<string>();
